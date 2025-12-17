@@ -1,10 +1,18 @@
 /*
 ====================================================
-GROUP BY & HAVING — NORTHWIND
+FILE: 02_groupby_having.sql
+PROJECT: SQL Northwind Analysis
+AUTHOR: Ramses Omar López Soto
+
+PURPOSE:
+Demonstrate proficiency with aggregations, GROUP BY,
+and HAVING clauses to segment customers and products
+based on performance metrics.
 ====================================================
 */
 
--- 1. Total sales per customer
+-- Query 1: Calculate total sales per customer
+-- Business question: Which customers contribute the most revenue?
 SELECT
     c.company_name,
     SUM(od.unit_price * od.quantity * (1 - od.discount)) AS total_sales
@@ -16,7 +24,10 @@ JOIN order_details od
 GROUP BY c.company_name
 ORDER BY total_sales DESC;
 
--- 2. Customers with more than 20 orders
+
+-- Query 2: Identify high-frequency customers
+-- Business question: Which customers place orders frequently enough to be considered loyal?
+-- HAVING is used to filter aggregated results
 SELECT
     c.company_name,
     COUNT(o.order_id) AS total_orders
@@ -27,7 +38,9 @@ GROUP BY c.company_name
 HAVING COUNT(o.order_id) > 20
 ORDER BY total_orders DESC;
 
--- 3. Products with low sales volume
+
+-- Query 3: Detect products with low sales volume
+-- Business question: Which products may require reevaluation or discontinuation?
 SELECT
     p.product_name,
     SUM(od.quantity) AS total_units_sold
